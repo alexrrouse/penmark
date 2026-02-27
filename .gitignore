@@ -4,9 +4,15 @@ DerivedData/
 *.xccheckout
 *.moved-aside
 xcuserdata/
+*.xcodeproj
 
 # Build products
 build/
+
+# Tuist
+.build/
+Tuist/.build/
+**/.package.resolved
 
 # OS
 .DS_Store

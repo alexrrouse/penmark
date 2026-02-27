@@ -32,18 +32,23 @@ A native macOS markdown viewer with a focus on speed, clarity, and keyboard-frie
    cd penmark
    ```
 
-2. Generate the Xcode project:
+2. Install Tuist (if needed):
    ```bash
-   xcodegen generate
+   brew install tuist
    ```
 
-3. Open in Xcode and build:
+3. Generate the Xcode project:
+   ```bash
+   tuist generate
+   ```
+
+4. Open in Xcode and build:
    ```bash
    open Penmark.xcodeproj
    ```
    Press **⌘B** to build, then **⌘R** to run.
 
-4. Copy `Penmark.app` (from the build output) to `/Applications`.
+5. Copy `Penmark.app` (from the build output) to `/Applications`.
 
 ### CLI Setup
 
@@ -103,7 +108,9 @@ Click the moon/sun icon in the toolbar to cycle between System, Light, and Dark 
 ```
 penmark/
 ├── penmark              # CLI launcher script
-├── project.yml          # XcodeGen project spec
+├── Project.swift        # Tuist project manifest
+├── Tuist/
+│   └── Config.swift     # Tuist global config
 ├── Sources/             # Swift source files
 │   ├── PenmarkApp.swift
 │   ├── AppState.swift
