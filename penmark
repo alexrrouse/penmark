@@ -1,0 +1,46 @@
+#!/bin/bash
+# penmark - Open a directory in Penmark
+# Usage: penmark [directory]
+#   directory  Path to open (default: current directory)
+
+DIR="${1:-.}"
+
+# Resolve to absolute path
+if [[ "$DIR" != /* ]]; then
+    DIR="$(cd "$DIR" 2>/dev/null && pwd)" || {
+        echo "penmark: cannot access '$1': No such directory" >&2
+        exit 1
+    }
+fi
+
+if [ ! -d "$DIR" ]; then
+    echo "penmark: '$DIR' is not a directory" >&2
+    exit 1
+fi
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+APP_PATHS=(
+    "/Applications/Penmark.app"
+    "$HOME/Applications/Penmark.app"
+    "$HOME/Desktop/Penmark.app"
+    "$SCRIPT_DIR/build/Build/Products/Release/Penmark.app"
+)
+
+APP_PATH=""
+for path in "${APP_PATHS[@]}"; do
+    if [ -d "$path" ]; then
+        APP_PATH="$path"
+        break
+    fi
+done
+
+if [ -z "$APP_PATH" ]; then
+    APP_PATH=$(mdfind "kMDItemCFBundleIdentifier == 'com.penmark.app'" 2>/dev/null | head -1)
+fi
+
+if [ -z "$APP_PATH" ]; then
+    echo "penmark: Penmark.app not found. Build the project in Xcode and copy to /Applications." >&2
+    exit 1
+fi
+
+open -n "$APP_PATH" --args "$DIR"

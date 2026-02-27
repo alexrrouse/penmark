@@ -1,0 +1,14 @@
+# Xcode
+DerivedData/
+*.xcuserdata/
+*.xccheckout
+*.moved-aside
+xcuserdata/
+
+# Build products
+build/
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride

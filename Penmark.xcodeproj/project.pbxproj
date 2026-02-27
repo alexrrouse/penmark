@@ -1,0 +1,350 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		28ABBED4C833915F8DFBBFD9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B26376D543539C2AFD8B946 /* AppState.swift */; };
+		34C111231506FA7A4FBB7A6F /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85F626A9EBEFD2D80F89803 /* WebView.swift */; };
+		35CC15FD463FE8B1A1F26FCF /* PenmarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F56AF8008C09A72CA4A9B8 /* PenmarkApp.swift */; };
+		36C29CF8B04AD1B3E7C101FC /* MarkdownPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90FCCA754E1E0ADC4A12BA8 /* MarkdownPaneView.swift */; };
+		4B3C17968B25D1005B623A4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011EF064A8540EFC54337CFC /* ContentView.swift */; };
+		743DD5C235CB354725AB93B4 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5D008C2F7415F10B88D0DB /* TabBarView.swift */; };
+		A5721BA13273C60D1AD028E1 /* FileBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98696BEAD76B6BD91938821A /* FileBrowserView.swift */; };
+		B3263CC2DA3C54D57C59F8D4 /* FileItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83053848171A1D1A54A8D3A /* FileItem.swift */; };
+		C4E26010C233516D70A87E0F /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F59ED31673C9C18AD40A0EF /* FavoritesStore.swift */; };
+		CB175EEEC86838E5047380EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81587AF211FDBB49DF732933 /* Assets.xcassets */; };
+		EA4DE2CD9ADF45594B467E71 /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB0178A64E6D913574B019F /* MarkdownEditorView.swift */; };
+		FFA6B9912076D990B51BCDD9 /* MarkdownRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BE8BFB903988206446B783 /* MarkdownRenderer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		011EF064A8540EFC54337CFC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		06F56AF8008C09A72CA4A9B8 /* PenmarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenmarkApp.swift; sourceTree = "<group>"; };
+		1F5D008C2F7415F10B88D0DB /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
+		2FB0178A64E6D913574B019F /* MarkdownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownEditorView.swift; sourceTree = "<group>"; };
+		54BE8BFB903988206446B783 /* MarkdownRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownRenderer.swift; sourceTree = "<group>"; };
+		5B26376D543539C2AFD8B946 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		6F59ED31673C9C18AD40A0EF /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
+		81587AF211FDBB49DF732933 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		98696BEAD76B6BD91938821A /* FileBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileBrowserView.swift; sourceTree = "<group>"; };
+		B83053848171A1D1A54A8D3A /* FileItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileItem.swift; sourceTree = "<group>"; };
+		B85F626A9EBEFD2D80F89803 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		C90FCCA754E1E0ADC4A12BA8 /* MarkdownPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownPaneView.swift; sourceTree = "<group>"; };
+		DEDB33AF525A1BF6AFD86990 /* Penmark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Penmark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E15897D51E4AB2CD67BA813C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		3693C5910F0F54AE81E29125 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				5B26376D543539C2AFD8B946 /* AppState.swift */,
+				81587AF211FDBB49DF732933 /* Assets.xcassets */,
+				011EF064A8540EFC54337CFC /* ContentView.swift */,
+				6F59ED31673C9C18AD40A0EF /* FavoritesStore.swift */,
+				98696BEAD76B6BD91938821A /* FileBrowserView.swift */,
+				B83053848171A1D1A54A8D3A /* FileItem.swift */,
+				E15897D51E4AB2CD67BA813C /* Info.plist */,
+				2FB0178A64E6D913574B019F /* MarkdownEditorView.swift */,
+				C90FCCA754E1E0ADC4A12BA8 /* MarkdownPaneView.swift */,
+				54BE8BFB903988206446B783 /* MarkdownRenderer.swift */,
+				06F56AF8008C09A72CA4A9B8 /* PenmarkApp.swift */,
+				1F5D008C2F7415F10B88D0DB /* TabBarView.swift */,
+				B85F626A9EBEFD2D80F89803 /* WebView.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		3C5564A7CE3DB80B0A206798 = {
+			isa = PBXGroup;
+			children = (
+				3693C5910F0F54AE81E29125 /* Sources */,
+				F4E91FCF4F0081C06AB023D3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F4E91FCF4F0081C06AB023D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DEDB33AF525A1BF6AFD86990 /* Penmark.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3F729D5925CA6CF98A6BC250 /* Penmark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F5A31B90C74659A54C8B4459 /* Build configuration list for PBXNativeTarget "Penmark" */;
+			buildPhases = (
+				A58A12B864B07128638EFA63 /* Sources */,
+				517E780ECCCEA92AE1EAC825 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Penmark;
+			packageProductDependencies = (
+			);
+			productName = Penmark;
+			productReference = DEDB33AF525A1BF6AFD86990 /* Penmark.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		303AEECF7FED7ECCB1B953FB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					3F729D5925CA6CF98A6BC250 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 028A48AF3AF4FFA4D1B66265 /* Build configuration list for PBXProject "Penmark" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 3C5564A7CE3DB80B0A206798;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3F729D5925CA6CF98A6BC250 /* Penmark */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		517E780ECCCEA92AE1EAC825 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB175EEEC86838E5047380EC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A58A12B864B07128638EFA63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28ABBED4C833915F8DFBBFD9 /* AppState.swift in Sources */,
+				4B3C17968B25D1005B623A4B /* ContentView.swift in Sources */,
+				C4E26010C233516D70A87E0F /* FavoritesStore.swift in Sources */,
+				A5721BA13273C60D1AD028E1 /* FileBrowserView.swift in Sources */,
+				B3263CC2DA3C54D57C59F8D4 /* FileItem.swift in Sources */,
+				EA4DE2CD9ADF45594B467E71 /* MarkdownEditorView.swift in Sources */,
+				36C29CF8B04AD1B3E7C101FC /* MarkdownPaneView.swift in Sources */,
+				FFA6B9912076D990B51BCDD9 /* MarkdownRenderer.swift in Sources */,
+				35CC15FD463FE8B1A1F26FCF /* PenmarkApp.swift in Sources */,
+				743DD5C235CB354725AB93B4 /* TabBarView.swift in Sources */,
+				34C111231506FA7A4FBB7A6F /* WebView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3190DC90E3EA0A17CFC906C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3BAE898D3983E365E9F42930 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Sources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.penmark.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		D33AC7D705B44027127AC845 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		F7FB3CAFCA8CFA839A2DBBE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Sources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.penmark.app;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		028A48AF3AF4FFA4D1B66265 /* Build configuration list for PBXProject "Penmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3190DC90E3EA0A17CFC906C2 /* Debug */,
+				D33AC7D705B44027127AC845 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F5A31B90C74659A54C8B4459 /* Build configuration list for PBXNativeTarget "Penmark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BAE898D3983E365E9F42930 /* Debug */,
+				F7FB3CAFCA8CFA839A2DBBE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 303AEECF7FED7ECCB1B953FB /* Project object */;
+}
