@@ -3,10 +3,10 @@ import SwiftUI
 struct FileBrowserView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var favoritesStore: FavoritesStore
-    @State private var fileItems: [FileItem] = []
 
     private var favItems: [URL] {
-        favoritesStore.favorites(under: appState.rootDirectory)
+        guard let root = appState.rootDirectory else { return [] }
+        return favoritesStore.favorites(under: root)
     }
 
     var body: some View {
@@ -35,28 +35,59 @@ struct FileBrowserView: View {
             .background(Color(nsColor: .controlBackgroundColor))
             .overlay(Divider(), alignment: .bottom)
 
-            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 0) {
-                    // Favorites section
-                    if !favItems.isEmpty && appState.fileSearchQuery.isEmpty {
-                        SectionHeader(title: "Favorites")
+            if appState.rootDirectory == nil {
+                NoFolderView()
+            } else {
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        // Favorites section
+                        if !favItems.isEmpty && appState.fileSearchQuery.isEmpty {
+                            SectionHeader(title: "Favorites")
+                            ForEach(favItems, id: \.self) { url in
+                                let isDir = (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
+                                FavoriteRowView(url: url, isDirectory: isDir)
+                            }
+                        }
 
-                        ForEach(favItems, id: \.self) { url in
-                            let isDir = (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
-                            FavoriteRowView(url: url, isDirectory: isDir)
+                        // Files section
+                        SectionHeader(title: appState.directoryDisplayName)
+                        ForEach(appState.fileTree) { item in
+                            FileRowView(item: item, depth: 0)
                         }
                     }
-
-                    // Files section
-                    SectionHeader(title: appState.directoryDisplayName)
-
-                    ForEach(appState.fileTree) { item in
-                        FileRowView(item: item, depth: 0)
-                    }
+                    .padding(.bottom, 16)
                 }
-                .padding(.bottom, 16)
             }
         }
+    }
+}
+
+struct NoFolderView: View {
+    @EnvironmentObject var appState: AppState
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Spacer()
+            Image(systemName: "folder")
+                .font(.system(size: 36))
+                .foregroundStyle(.tertiary)
+            Text("No Folder Open")
+                .font(.system(size: 13, weight: .medium))
+                .foregroundStyle(.secondary)
+            Button("Open Folder…") {
+                let panel = NSOpenPanel()
+                panel.canChooseFiles = false
+                panel.canChooseDirectories = true
+                panel.allowsMultipleSelection = false
+                panel.prompt = "Open"
+                if panel.runModal() == .OK, let url = panel.url {
+                    appState.changeDirectory(to: url)
+                }
+            }
+            .controlSize(.small)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
     }
 }
 
@@ -231,7 +262,9 @@ struct FavoriteRowView: View {
         )
         .contentShape(Rectangle())
         .onTapGesture {
-            if !isDirectory {
+            if isDirectory {
+                appState.changeDirectory(to: url)
+            } else {
                 let item = FileItem(url: url, isDirectory: false)
                 appState.openFile(item)
             }

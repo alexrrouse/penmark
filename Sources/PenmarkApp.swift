@@ -17,6 +17,13 @@ struct PenmarkApp: App {
         .windowToolbarStyle(.unified(showsTitle: true))
         .commands {
             CommandGroup(replacing: .newItem) {
+                Button("Open Folder…") {
+                    openFolder()
+                }
+                .keyboardShortcut("o", modifiers: .command)
+
+                Divider()
+
                 Button("New Window…") {
                     openNewWindow()
                 }
@@ -38,9 +45,8 @@ struct PenmarkApp: App {
         }
     }
 
-    private static func initialDirectory() -> URL {
+    private static func initialDirectory() -> URL? {
         let args = ProcessInfo.processInfo.arguments
-        // args[0] is the executable path; look for a non-flag argument
         for arg in args.dropFirst() {
             if arg.hasPrefix("-") { continue }
             var isDir: ObjCBool = false
@@ -48,7 +54,19 @@ struct PenmarkApp: App {
                 return URL(fileURLWithPath: arg).standardized
             }
         }
-        return URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        return nil  // No default — user must explicitly open a folder
+    }
+
+    private func openFolder() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.prompt = "Open"
+        panel.message = "Choose a folder to open in Penmark"
+        if panel.runModal() == .OK, let url = panel.url {
+            appState.changeDirectory(to: url)
+        }
     }
 
     private func openNewWindow() {

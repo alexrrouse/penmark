@@ -41,7 +41,7 @@ struct FileTab: Identifiable, Equatable {
 
 // MARK: - AppState
 final class AppState: ObservableObject {
-    @Published var rootDirectory: URL {
+    @Published var rootDirectory: URL? {
         didSet { rebuildFileTree() }
     }
 
@@ -59,13 +59,16 @@ final class AppState: ObservableObject {
 
     private var rebuildWorkItem: DispatchWorkItem?
 
-    init(rootDirectory: URL) {
+    init(rootDirectory: URL?) {
         self.rootDirectory = rootDirectory
         rebuildFileTree()
     }
 
     func changeDirectory(to url: URL) {
         rootDirectory = url
+        openTabs = []
+        activeTabID = nil
+        fileSearchQuery = ""
     }
 
     var activeTab: FileTab? {
@@ -115,8 +118,11 @@ final class AppState: ObservableObject {
 
     func rebuildFileTree() {
         rebuildWorkItem?.cancel()
+        guard let root = rootDirectory else {
+            fileTree = []
+            return
+        }
         let query = fileSearchQuery
-        let root = rootDirectory
         let workItem = DispatchWorkItem { [weak self] in
             let tree = FileTreeBuilder.build(from: root, searchQuery: query)
             DispatchQueue.main.async {
@@ -128,7 +134,8 @@ final class AppState: ObservableObject {
     }
 
     var directoryDisplayName: String {
-        let name = rootDirectory.lastPathComponent
-        return (name.isEmpty || name == "/") ? rootDirectory.path : name
+        guard let url = rootDirectory else { return "Penmark" }
+        let name = url.lastPathComponent
+        return (name.isEmpty || name == "/") ? url.path : name
     }
 }

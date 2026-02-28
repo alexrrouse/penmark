@@ -53,6 +53,7 @@ struct ContentView: View {
                         .frame(minWidth: 16)
                 }
                 .menuStyle(.borderlessButton)
+                .menuIndicator(.hidden)
                 .help("Color scheme")
             }
 

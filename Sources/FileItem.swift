@@ -71,7 +71,9 @@ enum FileTreeBuilder {
                 let isMarkdown = ext == "md" || ext == "markdown" || ext == "mdown" || ext == "mkd"
                 guard isMarkdown else { continue }
 
-                if searchQuery.isEmpty || itemURL.lastPathComponent.lowercased().contains(searchQuery) {
+                let fullName = itemURL.lastPathComponent.lowercased()
+                let baseName = itemURL.deletingPathExtension().lastPathComponent.lowercased()
+                if searchQuery.isEmpty || fullName.contains(searchQuery) || baseName.contains(searchQuery) {
                     items.append(FileItem(url: itemURL, isDirectory: false))
                 }
             }
