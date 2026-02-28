@@ -9,10 +9,13 @@ xcuserdata/
 # Build products
 build/
 
-# Tuist
+# Tuist generated
 .build/
 Tuist/.build/
 **/.package.resolved
+*.xcworkspace
+*.xcodeproj
+Derived/
 
 # OS
 .DS_Store
