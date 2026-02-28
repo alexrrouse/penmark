@@ -41,7 +41,9 @@ struct FileTab: Identifiable, Equatable {
 
 // MARK: - AppState
 final class AppState: ObservableObject {
-    let rootDirectory: URL
+    @Published var rootDirectory: URL {
+        didSet { rebuildFileTree() }
+    }
 
     @Published var fileTree: [FileItem] = []
     @Published var openTabs: [FileTab] = []
@@ -60,6 +62,10 @@ final class AppState: ObservableObject {
     init(rootDirectory: URL) {
         self.rootDirectory = rootDirectory
         rebuildFileTree()
+    }
+
+    func changeDirectory(to url: URL) {
+        rootDirectory = url
     }
 
     var activeTab: FileTab? {
@@ -122,6 +128,7 @@ final class AppState: ObservableObject {
     }
 
     var directoryDisplayName: String {
-        rootDirectory.lastPathComponent
+        let name = rootDirectory.lastPathComponent
+        return (name.isEmpty || name == "/") ? rootDirectory.path : name
     }
 }

@@ -12,10 +12,10 @@ struct FileBrowserView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Search bar
-            HStack {
+            HStack(spacing: 6) {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
-                    .font(.system(size: 12))
+                    .font(.system(size: 13))
                 TextField("Filter files…", text: $appState.fileSearchQuery)
                     .textFieldStyle(.plain)
                     .font(.system(size: 13))
@@ -24,14 +24,14 @@ struct FileBrowserView: View {
                         appState.fileSearchQuery = ""
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
-                            .font(.system(size: 12))
+                            .foregroundStyle(.tertiary)
+                            .font(.system(size: 14))
                     }
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 10)
-            .padding(.vertical, 7)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 9)
             .background(Color(nsColor: .controlBackgroundColor))
             .overlay(Divider(), alignment: .bottom)
 
@@ -66,13 +66,13 @@ struct SectionHeader: View {
 
     var body: some View {
         Text(title)
-            .font(.system(size: 11, weight: .semibold))
-            .foregroundStyle(.secondary)
+            .font(.system(size: 10, weight: .semibold))
+            .foregroundStyle(.tertiary)
             .textCase(.uppercase)
-            .tracking(0.5)
-            .padding(.horizontal, 12)
-            .padding(.top, 12)
-            .padding(.bottom, 4)
+            .tracking(0.8)
+            .padding(.horizontal, 14)
+            .padding(.top, 16)
+            .padding(.bottom, 5)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
@@ -100,32 +100,33 @@ struct FileRowView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 // Indent
-                Spacer().frame(width: CGFloat(depth) * 16 + 8)
+                Spacer().frame(width: CGFloat(depth) * 18 + 10)
 
                 // Expand arrow for directories
                 if item.isDirectory {
                     Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
-                        .font(.system(size: 10, weight: .semibold))
-                        .foregroundStyle(.secondary)
-                        .frame(width: 16)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.tertiary)
+                        .frame(width: 14)
+                        .padding(.trailing, 3)
                 } else {
-                    Spacer().frame(width: 16)
+                    Spacer().frame(width: 17)
                 }
 
                 // Icon
-                Image(systemName: item.isDirectory ? (isExpanded ? "folder.open" : "folder") : "doc.text")
-                    .font(.system(size: 12))
-                    .foregroundStyle(item.isDirectory ? Color.accentColor : .secondary)
-                    .frame(width: 18)
-                    .padding(.trailing, 4)
+                Image(systemName: item.isDirectory ? (isExpanded ? "folder.open.fill" : "folder.fill") : "doc.text.fill")
+                    .font(.system(size: 13))
+                    .foregroundStyle(item.isDirectory ? Color.accentColor : Color(nsColor: .secondaryLabelColor))
+                    .frame(width: 20)
+                    .padding(.trailing, 6)
 
                 // Name
                 Text(item.name)
                     .font(.system(size: 13))
                     .lineLimit(1)
-                    .foregroundStyle(isActive ? Color.accentColor : .primary)
+                    .foregroundStyle(isActive ? Color.accentColor : Color.primary)
 
-                Spacer()
+                Spacer(minLength: 8)
 
                 // Favorite star
                 if isHovered || favoritesStore.isFavorite(item.url) {
@@ -134,18 +135,18 @@ struct FileRowView: View {
                     } label: {
                         Image(systemName: favoritesStore.isFavorite(item.url) ? "star.fill" : "star")
                             .font(.system(size: 11))
-                            .foregroundStyle(favoritesStore.isFavorite(item.url) ? .yellow : .secondary)
+                            .foregroundStyle(favoritesStore.isFavorite(item.url) ? Color.yellow : Color(nsColor: .tertiaryLabelColor))
                     }
                     .buttonStyle(.plain)
-                    .padding(.trailing, 8)
+                    .padding(.trailing, 10)
                 }
             }
-            .frame(height: 28)
+            .frame(height: 30)
             .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(isActive ? Color.accentColor.opacity(0.15) :
-                          isHovered ? Color(nsColor: .quaternaryLabelColor).opacity(0.5) : Color.clear)
-                    .padding(.horizontal, 4)
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(isActive ? Color.accentColor.opacity(0.12) :
+                          isHovered ? Color(nsColor: .labelColor).opacity(0.07) : Color.clear)
+                    .padding(.horizontal, 6)
             )
             .contentShape(Rectangle())
             .onTapGesture {
@@ -200,33 +201,33 @@ struct FavoriteRowView: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            Spacer().frame(width: 8)
-            Spacer().frame(width: 16) // no expand arrow
+            Spacer().frame(width: 10)
+            Spacer().frame(width: 17) // align with file rows (no expand arrow)
 
-            Image(systemName: isDirectory ? "folder" : "doc.text")
-                .font(.system(size: 12))
-                .foregroundStyle(isDirectory ? Color.accentColor : .secondary)
-                .frame(width: 18)
-                .padding(.trailing, 4)
+            Image(systemName: isDirectory ? "folder.fill" : "doc.text.fill")
+                .font(.system(size: 13))
+                .foregroundStyle(isDirectory ? Color.accentColor : Color(nsColor: .secondaryLabelColor))
+                .frame(width: 20)
+                .padding(.trailing, 6)
 
             Text(name)
                 .font(.system(size: 13))
                 .lineLimit(1)
-                .foregroundStyle(isActive ? Color.accentColor : .primary)
+                .foregroundStyle(isActive ? Color.accentColor : Color.primary)
 
-            Spacer()
+            Spacer(minLength: 8)
 
             Image(systemName: "star.fill")
                 .font(.system(size: 11))
-                .foregroundStyle(.yellow)
-                .padding(.trailing, 8)
+                .foregroundStyle(Color.yellow)
+                .padding(.trailing, 10)
         }
-        .frame(height: 28)
+        .frame(height: 30)
         .background(
-            RoundedRectangle(cornerRadius: 4)
-                .fill(isActive ? Color.accentColor.opacity(0.15) :
-                      isHovered ? Color(nsColor: .quaternaryLabelColor).opacity(0.5) : Color.clear)
-                .padding(.horizontal, 4)
+            RoundedRectangle(cornerRadius: 5)
+                .fill(isActive ? Color.accentColor.opacity(0.12) :
+                      isHovered ? Color(nsColor: .labelColor).opacity(0.07) : Color.clear)
+                .padding(.horizontal, 6)
         )
         .contentShape(Rectangle())
         .onTapGesture {

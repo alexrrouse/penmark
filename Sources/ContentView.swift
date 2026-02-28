@@ -9,26 +9,37 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             FileBrowserView()
-                .navigationSplitViewColumnWidth(min: 180, ideal: 260, max: 400)
+                .navigationSplitViewColumnWidth(min: 200, ideal: 260, max: 400)
                 .navigationTitle(appState.directoryDisplayName)
         } detail: {
             MarkdownPaneView()
                 .frame(minWidth: 400)
         }
         .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                // View mode toggle
-                Picker("View Mode", selection: $appState.viewMode) {
-                    Label("Rendered", systemImage: "doc.richtext").tag(ViewMode.rendered)
-                    Label("Raw", systemImage: "chevron.left.forwardslash.chevron.right").tag(ViewMode.raw)
+            // Open button — left side
+            ToolbarItem(placement: .navigation) {
+                Button(action: openDocument) {
+                    Image(systemName: "folder.badge.plus")
+                }
+                .help("Open Folder or File… (⌘O)")
+            }
+
+            // Right-side controls
+            ToolbarItem(placement: .primaryAction) {
+                // Rendered / Raw toggle — images only for a clean segmented look
+                Picker("View", selection: $appState.viewMode) {
+                    Image(systemName: "doc.richtext")
+                        .help("Rendered")
+                        .tag(ViewMode.rendered)
+                    Image(systemName: "chevron.left.forwardslash.chevron.right")
+                        .help("Raw")
+                        .tag(ViewMode.raw)
                 }
                 .pickerStyle(.segmented)
-                .frame(width: 90)
-                .help("Toggle between rendered and raw markdown view")
+                .fixedSize()
+            }
 
-                Divider()
-
-                // Color scheme toggle
+            ToolbarItem(placement: .primaryAction) {
                 Menu {
                     ForEach(AppColorScheme.allCases, id: \.self) { scheme in
                         Button {
@@ -39,12 +50,13 @@ struct ContentView: View {
                     }
                 } label: {
                     Image(systemName: schemeIcon(appState.appColorScheme))
+                        .frame(minWidth: 16)
                 }
                 .menuStyle(.borderlessButton)
-                .frame(width: 28)
                 .help("Color scheme")
+            }
 
-                // Content search
+            ToolbarItem(placement: .primaryAction) {
                 Button {
                     withAnimation {
                         appState.isContentSearchVisible.toggle()
@@ -59,6 +71,26 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(appState.appColorScheme.colorScheme)
+    }
+
+    private func openDocument() {
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = true
+        panel.allowsMultipleSelection = false
+        panel.prompt = "Open"
+        panel.message = "Choose a markdown file or a folder to browse"
+
+        if panel.runModal() == .OK, let url = panel.url {
+            var isDir: ObjCBool = false
+            FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir)
+            if isDir.boolValue {
+                appState.changeDirectory(to: url)
+            } else {
+                let item = FileItem(url: url, isDirectory: false)
+                appState.openFile(item)
+            }
+        }
     }
 
     private func schemeIcon(_ scheme: AppColorScheme) -> String {
