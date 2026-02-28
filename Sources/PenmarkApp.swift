@@ -14,7 +14,6 @@ struct PenmarkApp: App {
                 .environmentObject(favoritesStore)
                 .frame(minWidth: 700, minHeight: 500)
         }
-        .windowStyle(.default)
         .windowToolbarStyle(.unified(showsTitle: true))
         .commands {
             CommandGroup(replacing: .newItem) {

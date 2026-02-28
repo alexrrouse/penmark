@@ -77,7 +77,7 @@ struct MarkdownRenderer {
             }
 
             // Ordered list
-            if let content = orderedListContent(line) {
+            if orderedListContent(line) != nil {
                 var items: [String] = []
                 while i < lines.count, let c = orderedListContent(lines[i]) {
                     items.append("<li>\(processInline(c))</li>")
@@ -268,7 +268,6 @@ struct MarkdownRenderer {
 
     private func applyRegex(_ pattern: String, in text: String, transform: ([String]) -> String) -> String {
         guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return text }
-        let ns = text as NSString
         let matches = regex.matches(in: text, range: NSRange(text.startIndex..., in: text))
         var result = ""
         var lastEnd = text.startIndex
@@ -294,7 +293,7 @@ struct MarkdownRenderer {
     // MARK: - HTML Document
 
     private func fullDocument(body: String, isDark: Bool, searchQuery: String) -> String {
-        let css = stylesheet(isDark: isDark)
+        let css = stylesheet(isDark)
         let escapedQuery = searchQuery.htmlEscaped
         let searchScript = searchQuery.isEmpty ? "" : """
         <script>
