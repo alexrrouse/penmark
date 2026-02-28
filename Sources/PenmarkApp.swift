@@ -77,7 +77,7 @@ struct PenmarkApp: App {
         panel.prompt = "Open"
         panel.message = "Choose a directory to open in a new window"
         if panel.runModal() == .OK, let url = panel.url {
-            guard let appURL = Bundle.main.bundleURL.absoluteURL as URL? else { return }
+            let appURL = Bundle.main.bundleURL.absoluteURL
             let config = NSWorkspace.OpenConfiguration()
             config.arguments = [url.path]
             config.createsNewApplicationInstance = true

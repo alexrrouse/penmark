@@ -18,8 +18,12 @@ struct FileItem: Identifiable, Hashable {
     }
 
     var isMarkdown: Bool {
-        let ext = url.pathExtension.lowercased()
-        return ext == "md" || ext == "markdown" || ext == "mdown" || ext == "mkd"
+        FileItem.isMarkdownExtension(url.pathExtension)
+    }
+
+    static func isMarkdownExtension(_ ext: String) -> Bool {
+        let lower = ext.lowercased()
+        return lower == "md" || lower == "markdown" || lower == "mdown" || lower == "mkd"
     }
 
     static func == (lhs: FileItem, rhs: FileItem) -> Bool {
@@ -67,8 +71,7 @@ enum FileTreeBuilder {
                     items.append(dir)
                 }
             } else {
-                let ext = itemURL.pathExtension.lowercased()
-                let isMarkdown = ext == "md" || ext == "markdown" || ext == "mdown" || ext == "mkd"
+                let isMarkdown = FileItem.isMarkdownExtension(itemURL.pathExtension)
                 guard isMarkdown else { continue }
 
                 let fullName = itemURL.lastPathComponent.lowercased()

@@ -27,6 +27,17 @@ let project = Project(
                 ],
                 defaultSettings: .recommended(excluding: ["SWIFT_ACTIVE_COMPILATION_CONDITIONS"])
             )
-        )
+        ),
+        .target(
+            name: "PenmarkTests",
+            destinations: .macOS,
+            product: .unitTests,
+            bundleId: "com.penmark.tests",
+            deploymentTargets: .macOS("14.0"),
+            sources: ["Tests/**/*.swift"],
+            dependencies: [
+                .target(name: "Penmark"),
+            ]
+        ),
     ]
 )

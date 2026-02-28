@@ -1,5 +1,4 @@
 import Foundation
-import Combine
 
 final class FavoritesStore: ObservableObject {
     static let shared = FavoritesStore()
@@ -25,11 +24,6 @@ final class FavoritesStore: ObservableObject {
         save()
     }
 
-    func add(_ url: URL) {
-        favorites.insert(url)
-        save()
-    }
-
     func remove(_ url: URL) {
         favorites.remove(url)
         save()
@@ -38,7 +32,7 @@ final class FavoritesStore: ObservableObject {
     // Returns favorites that exist within a given root directory
     func favorites(under rootURL: URL) -> [URL] {
         favorites
-            .filter { $0.path.hasPrefix(rootURL.path) }
+            .filter { $0.path.hasPrefix(rootURL.path.hasSuffix("/") ? rootURL.path : rootURL.path + "/") }
             .sorted { $0.lastPathComponent.localizedStandardCompare($1.lastPathComponent) == .orderedAscending }
     }
 

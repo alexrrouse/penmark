@@ -40,7 +40,6 @@ struct ContentSearchBar: View {
                 .textFieldStyle(.plain)
                 .font(.system(size: 13))
                 .focused($isFocused)
-                .onSubmit { }
 
             if !appState.contentSearchQuery.isEmpty {
                 Button {

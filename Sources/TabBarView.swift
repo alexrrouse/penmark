@@ -54,7 +54,7 @@ struct TabItemView: View {
         .padding(.horizontal, 10)
         .frame(height: 34)
         .background(
-            RoundedRectangle(cornerRadius: 0)
+            Rectangle()
                 .fill(isActive ? Color(nsColor: .controlBackgroundColor) : Color.clear)
         )
         .overlay(

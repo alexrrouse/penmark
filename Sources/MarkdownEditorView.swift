@@ -13,7 +13,7 @@ struct MarkdownEditorView: View {
         }
     }
 
-    private var renderer: MarkdownRenderer { MarkdownRenderer() }
+    private let renderer = MarkdownRenderer()
 
     var body: some View {
         Group {

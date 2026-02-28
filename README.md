@@ -50,6 +50,13 @@ A native macOS markdown viewer with a focus on speed, clarity, and keyboard-frie
 
 5. Copy `Penmark.app` (from the build output) to `/Applications`.
 
+### Testing
+
+After generating the Xcode project, run the test suite:
+
+- **Xcode**: Press **⌘U** to run all tests
+- **Command line**: `xcodebuild test -scheme Penmark -destination 'platform=macOS'`
+
 ### CLI Setup
 
 After installing the app, set up the `penmark` command:
@@ -109,8 +116,7 @@ Click the moon/sun icon in the toolbar to cycle between System, Light, and Dark 
 penmark/
 ├── penmark              # CLI launcher script
 ├── Project.swift        # Tuist project manifest
-├── Tuist/
-│   └── Config.swift     # Tuist global config
+├── Tuist.swift          # Tuist global config
 ├── Sources/             # Swift source files
 │   ├── PenmarkApp.swift
 │   ├── AppState.swift
@@ -125,6 +131,11 @@ penmark/
 │   ├── MarkdownEditorView.swift
 │   ├── Info.plist
 │   └── Assets.xcassets/
+├── Tests/               # Unit tests
+│   ├── MarkdownRendererTests.swift
+│   ├── FileItemTests.swift
+│   ├── FavoritesStoreTests.swift
+│   └── AppStateTests.swift
 └── README.md
 ```
 
