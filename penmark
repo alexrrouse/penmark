@@ -1,20 +1,26 @@
 #!/bin/bash
-# penmark - Open a directory in Penmark
-# Usage: penmark [directory]
-#   directory  Path to open (default: current directory)
+# penmark - Open a file or directory in Penmark
+# Usage: penmark [path]
+#   path  File or directory to open (default: current directory)
 
-DIR="${1:-.}"
+ARG="${1:-.}"
 
 # Resolve to absolute path
-if [[ "$DIR" != /* ]]; then
-    DIR="$(cd "$DIR" 2>/dev/null && pwd)" || {
+if [ -f "$ARG" ]; then
+    # It's a file — resolve its absolute path
+    FILE_DIR="$(cd "$(dirname "$ARG")" 2>/dev/null && pwd)" || {
+        echo "penmark: cannot resolve path for '$1'" >&2
+        exit 1
+    }
+    PATH_ARG="$FILE_DIR/$(basename "$ARG")"
+elif [ -d "$ARG" ]; then
+    # It's a directory — resolve its absolute path
+    PATH_ARG="$(cd "$ARG" 2>/dev/null && pwd)" || {
         echo "penmark: cannot access '$1': No such directory" >&2
         exit 1
     }
-fi
-
-if [ ! -d "$DIR" ]; then
-    echo "penmark: '$DIR' is not a directory" >&2
+else
+    echo "penmark: '$ARG' does not exist" >&2
     exit 1
 fi
 
@@ -43,4 +49,4 @@ if [ -z "$APP_PATH" ]; then
     exit 1
 fi
 
-open -n "$APP_PATH" --args "$DIR"
+open -n "$APP_PATH" --args "$PATH_ARG"
