@@ -52,6 +52,12 @@ final class AppState: ObservableObject {
     @Published var fileSearchQuery: String = "" {
         didSet { rebuildFileTree() }
     }
+    @Published var showHiddenFiles: Bool = false {
+        didSet {
+            UserDefaults.standard.set(showHiddenFiles, forKey: "com.penmark.showHiddenFiles")
+            rebuildFileTree()
+        }
+    }
     @Published var contentSearchQuery: String = ""
     @Published var isContentSearchVisible: Bool = false
     @Published var sidebarWidth: CGFloat = 260
@@ -60,6 +66,7 @@ final class AppState: ObservableObject {
 
     init(rootDirectory: URL?) {
         self.rootDirectory = rootDirectory
+        self.showHiddenFiles = UserDefaults.standard.bool(forKey: "com.penmark.showHiddenFiles")
         rebuildFileTree()
     }
 
@@ -122,8 +129,9 @@ final class AppState: ObservableObject {
             return
         }
         let query = fileSearchQuery
+        let showHidden = showHiddenFiles
         let workItem = DispatchWorkItem { [weak self] in
-            let tree = FileTreeBuilder.build(from: root, searchQuery: query)
+            let tree = FileTreeBuilder.build(from: root, searchQuery: query, showHiddenFiles: showHidden)
             DispatchQueue.main.async {
                 self?.fileTree = tree
             }

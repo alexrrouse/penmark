@@ -5,6 +5,7 @@ struct FileItem: Identifiable, Hashable {
     let url: URL
     let name: String
     let isDirectory: Bool
+    let isHidden: Bool
     var children: [FileItem]?
     var isExpanded: Bool
 
@@ -13,6 +14,7 @@ struct FileItem: Identifiable, Hashable {
         self.url = url
         self.name = url.lastPathComponent
         self.isDirectory = isDirectory
+        self.isHidden = url.lastPathComponent.hasPrefix(".")
         self.children = children
         self.isExpanded = false
     }
@@ -37,15 +39,19 @@ struct FileItem: Identifiable, Hashable {
 
 // MARK: - File Tree Builder
 enum FileTreeBuilder {
-    static func build(from rootURL: URL, searchQuery: String = "") -> [FileItem] {
-        buildItems(from: rootURL, searchQuery: searchQuery.lowercased())
+    static func build(from rootURL: URL, searchQuery: String = "", showHiddenFiles: Bool = false) -> [FileItem] {
+        buildItems(from: rootURL, searchQuery: searchQuery.lowercased(), showHiddenFiles: showHiddenFiles)
     }
 
-    private static func buildItems(from url: URL, searchQuery: String) -> [FileItem] {
+    private static func buildItems(from url: URL, searchQuery: String, showHiddenFiles: Bool) -> [FileItem] {
+        var options: FileManager.DirectoryEnumerationOptions = []
+        if !showHiddenFiles {
+            options.insert(.skipsHiddenFiles)
+        }
         guard let contents = try? FileManager.default.contentsOfDirectory(
             at: url,
             includingPropertiesForKeys: [.isDirectoryKey, .isHiddenKey],
-            options: [.skipsHiddenFiles]
+            options: options
         ) else { return [] }
 
         var items: [FileItem] = []
@@ -61,7 +67,7 @@ enum FileTreeBuilder {
             let isDir = (try? itemURL.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
 
             if isDir {
-                let children = buildItems(from: itemURL, searchQuery: searchQuery)
+                let children = buildItems(from: itemURL, searchQuery: searchQuery, showHiddenFiles: showHiddenFiles)
                 // Only include directories that contain markdown files (recursively)
                 if !children.isEmpty {
                     var dir = FileItem(url: itemURL, isDirectory: true, children: children)
