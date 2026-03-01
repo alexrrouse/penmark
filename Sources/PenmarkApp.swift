@@ -7,12 +7,20 @@ struct PenmarkApp: App {
     @StateObject private var appState = AppState(rootDirectory: PenmarkApp.initialDirectory())
     @StateObject private var favoritesStore = FavoritesStore.shared
 
+    private static let launchFileURL: URL? = PenmarkApp.initialFile()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appState)
                 .environmentObject(favoritesStore)
                 .frame(minWidth: 700, minHeight: 500)
+                .onAppear {
+                    if let fileURL = Self.launchFileURL {
+                        let item = FileItem(url: fileURL, isDirectory: false)
+                        appState.openFile(item)
+                    }
+                }
         }
         .windowToolbarStyle(.unified(showsTitle: true))
         .commands {
@@ -50,11 +58,29 @@ struct PenmarkApp: App {
         for arg in args.dropFirst() {
             if arg.hasPrefix("-") { continue }
             var isDir: ObjCBool = false
-            if FileManager.default.fileExists(atPath: arg, isDirectory: &isDir), isDir.boolValue {
-                return URL(fileURLWithPath: arg).standardized
+            if FileManager.default.fileExists(atPath: arg, isDirectory: &isDir) {
+                if isDir.boolValue {
+                    return URL(fileURLWithPath: arg).standardized
+                }
+                // It's a file — skip; handled by initialFile()
             }
         }
-        return nil  // No default — user must explicitly open a folder
+        return nil
+    }
+
+    private static func initialFile() -> URL? {
+        let args = ProcessInfo.processInfo.arguments
+        for arg in args.dropFirst() {
+            if arg.hasPrefix("-") { continue }
+            var isDir: ObjCBool = false
+            if FileManager.default.fileExists(atPath: arg, isDirectory: &isDir), !isDir.boolValue {
+                let url = URL(fileURLWithPath: arg).standardized
+                if FileItem.isMarkdownExtension(url.pathExtension) {
+                    return url
+                }
+            }
+        }
+        return nil
     }
 
     private func openFolder() {
