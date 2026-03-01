@@ -72,6 +72,21 @@ struct ContentView: View {
             }
         }
         .preferredColorScheme(appState.appColorScheme.colorScheme)
+        .onChange(of: appState.rootDirectory) { newRoot in
+            if newRoot == nil && !appState.openTabs.isEmpty {
+                columnVisibility = .detailOnly
+            }
+        }
+        .onChange(of: appState.openTabs.count) { count in
+            if appState.rootDirectory == nil && count > 0 {
+                columnVisibility = .detailOnly
+            }
+        }
+        .onAppear {
+            if appState.rootDirectory == nil && !appState.openTabs.isEmpty {
+                columnVisibility = .detailOnly
+            }
+        }
     }
 
     private func openDocument() {

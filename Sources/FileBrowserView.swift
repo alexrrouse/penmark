@@ -30,6 +30,16 @@ struct FileBrowserView: View {
                     }
                     .buttonStyle(.plain)
                 }
+
+                Button {
+                    appState.showHiddenFiles.toggle()
+                } label: {
+                    Image(systemName: appState.showHiddenFiles ? "eye" : "eye.slash")
+                        .foregroundStyle(appState.showHiddenFiles ? .primary : .tertiary)
+                        .font(.system(size: 13))
+                }
+                .buttonStyle(.plain)
+                .help(appState.showHiddenFiles ? "Hide hidden files" : "Show hidden files")
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 9)
@@ -265,6 +275,7 @@ struct FileRowView: View {
                 }
             }
         }
+        .opacity(item.isHidden ? 0.5 : 1.0)
     }
 }
 
