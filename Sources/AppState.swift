@@ -61,6 +61,8 @@ final class AppState: ObservableObject {
     @Published var contentSearchQuery: String = ""
     @Published var isContentSearchVisible: Bool = false
     @Published var sidebarWidth: CGFloat = 260
+    @Published var selectedFileURL: URL?
+    @Published var expandedDirectories: Set<URL> = []
 
     private var rebuildWorkItem: DispatchWorkItem?
 
@@ -132,17 +134,103 @@ final class AppState: ObservableObject {
         let showHidden = showHiddenFiles
         let workItem = DispatchWorkItem { [weak self] in
             let tree = FileTreeBuilder.build(from: root, searchQuery: query, showHiddenFiles: showHidden)
+            let expandAll = !query.isEmpty
             DispatchQueue.main.async {
                 self?.fileTree = tree
+                if expandAll {
+                    self?.expandAllDirectories(in: tree)
+                }
             }
         }
         rebuildWorkItem = workItem
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 0.15, execute: workItem)
     }
 
+    private func expandAllDirectories(in items: [FileItem]) {
+        for item in items {
+            if item.isDirectory {
+                expandedDirectories.insert(item.url)
+                if let children = item.children {
+                    expandAllDirectories(in: children)
+                }
+            }
+        }
+    }
+
     var directoryDisplayName: String {
         guard let url = rootDirectory else { return "Penmark" }
         let name = url.lastPathComponent
         return (name.isEmpty || name == "/") ? url.path : name
+    }
+
+    // MARK: - Keyboard Navigation
+
+    var flattenedVisibleFiles: [FileItem] {
+        var result: [FileItem] = []
+        flattenItems(fileTree, into: &result)
+        return result
+    }
+
+    private func flattenItems(_ items: [FileItem], into result: inout [FileItem]) {
+        for item in items {
+            result.append(item)
+            if item.isDirectory, expandedDirectories.contains(item.url),
+               let children = item.children {
+                flattenItems(children, into: &result)
+            }
+        }
+    }
+
+    func selectPreviousFile() {
+        let flat = flattenedVisibleFiles
+        guard !flat.isEmpty else { return }
+        guard let current = selectedFileURL,
+              let idx = flat.firstIndex(where: { $0.url == current }) else {
+            selectedFileURL = flat.last?.url
+            return
+        }
+        if idx > 0 {
+            selectedFileURL = flat[idx - 1].url
+        }
+    }
+
+    func selectNextFile() {
+        let flat = flattenedVisibleFiles
+        guard !flat.isEmpty else { return }
+        guard let current = selectedFileURL,
+              let idx = flat.firstIndex(where: { $0.url == current }) else {
+            selectedFileURL = flat.first?.url
+            return
+        }
+        if idx < flat.count - 1 {
+            selectedFileURL = flat[idx + 1].url
+        }
+    }
+
+    func openSelectedFile() {
+        guard let url = selectedFileURL else { return }
+        let flat = flattenedVisibleFiles
+        guard let item = flat.first(where: { $0.url == url }) else { return }
+        if item.isDirectory {
+            expandedDirectories.insert(item.url)
+        } else {
+            openFile(item)
+        }
+    }
+
+    func expandSelectedDirectory() {
+        guard let url = selectedFileURL else { return }
+        let flat = flattenedVisibleFiles
+        guard let item = flat.first(where: { $0.url == url }),
+              item.isDirectory else { return }
+        expandedDirectories.insert(item.url)
+    }
+
+    func collapseSelectedDirectory() {
+        guard let url = selectedFileURL else { return }
+        let flat = flattenedVisibleFiles
+        guard let item = flat.first(where: { $0.url == url }),
+              item.isDirectory else { return }
+        expandedDirectories.remove(item.url)
     }
 }

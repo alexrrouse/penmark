@@ -3,6 +3,7 @@ import SwiftUI
 struct FileBrowserView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var favoritesStore: FavoritesStore
+    @FocusState private var isFileListFocused: Bool
 
     private var favItems: [URL] {
         guard let root = appState.rootDirectory else { return [] }
@@ -67,7 +68,32 @@ struct FileBrowserView: View {
                     }
                     .padding(.bottom, 16)
                 }
+                .focusable()
+                .focused($isFileListFocused)
+                .onKeyPress(.upArrow) {
+                    appState.selectPreviousFile()
+                    return .handled
+                }
+                .onKeyPress(.downArrow) {
+                    appState.selectNextFile()
+                    return .handled
+                }
+                .onKeyPress(.return) {
+                    appState.openSelectedFile()
+                    return .handled
+                }
+                .onKeyPress(.rightArrow) {
+                    appState.expandSelectedDirectory()
+                    return .handled
+                }
+                .onKeyPress(.leftArrow) {
+                    appState.collapseSelectedDirectory()
+                    return .handled
+                }
             }
+        }
+        .onAppear {
+            isFileListFocused = true
         }
     }
 }
@@ -125,16 +151,33 @@ struct FileRowView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var favoritesStore: FavoritesStore
     @State private var isHovered = false
-    @State private var isExpanded: Bool
 
     init(item: FileItem, depth: Int) {
         self._item = State(initialValue: item)
         self.depth = depth
-        self._isExpanded = State(initialValue: item.isExpanded)
+    }
+
+    private var isExpanded: Bool {
+        appState.expandedDirectories.contains(item.url)
     }
 
     private var isActive: Bool {
         appState.activeTab?.fileItem.url == item.url
+    }
+
+    private var isSelected: Bool {
+        appState.selectedFileURL == item.url
+    }
+
+    private var rowBackground: Color {
+        if isActive {
+            return Color.accentColor.opacity(0.12)
+        } else if isSelected {
+            return Color.accentColor.opacity(0.08)
+        } else if isHovered {
+            return Color(nsColor: .labelColor).opacity(0.07)
+        }
+        return Color.clear
     }
 
     var body: some View {
@@ -185,15 +228,24 @@ struct FileRowView: View {
             .frame(height: 30)
             .background(
                 RoundedRectangle(cornerRadius: 5)
-                    .fill(isActive ? Color.accentColor.opacity(0.12) :
-                          isHovered ? Color(nsColor: .labelColor).opacity(0.07) : Color.clear)
+                    .fill(rowBackground)
+                    .padding(.horizontal, 6)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .strokeBorder(Color.accentColor.opacity(isSelected ? 0.4 : 0), lineWidth: 1)
                     .padding(.horizontal, 6)
             )
             .contentShape(Rectangle())
             .onTapGesture {
+                appState.selectedFileURL = item.url
                 if item.isDirectory {
                     withAnimation(.easeInOut(duration: 0.15)) {
-                        isExpanded.toggle()
+                        if isExpanded {
+                            appState.expandedDirectories.remove(item.url)
+                        } else {
+                            appState.expandedDirectories.insert(item.url)
+                        }
                     }
                 } else {
                     appState.openFile(item)
